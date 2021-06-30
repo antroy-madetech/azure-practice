@@ -8,11 +8,22 @@ then
   exit 1
 fi
 
-if [[ -f $CONFIG_FILE ]]
+# if [[ -f $CONFIG_FILE ]]
+# then
+  # echo Already configured. Activate using:
+  # echo . $CONFIG_FILE
+  # exit 0
+# fi
+
+TEST_APP_COUNT=$(az ad sp  list --display-name aks-test-app | jq length)
+
+if [[ "$TEST_APP_COUNT" -eq 1 ]] && [[ "$1" != "--renew-secrets" ]]
 then
-  echo Already configured. Activate using:
-  echo . $CONFIG_FILE
+  echo Secret already generated for the aks-test-app principal, to create new credentials
+  echo run this command again with the --renew-secrets option
   exit 0
+else
+  echo Creating or updating Service Principal
 fi
 
 acc=$(az account list)
