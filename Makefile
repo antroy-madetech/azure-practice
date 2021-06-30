@@ -16,3 +16,12 @@ plan:
 
 apply:
 	cd tf; terraform apply tfplan
+
+kube-config:
+	az aks get-credentials -n aks-test-app -g aks-test-app
+
+kube-services:
+	kubectl get svc
+
+kube-deployments:
+	kubectl get deploy -o wide
